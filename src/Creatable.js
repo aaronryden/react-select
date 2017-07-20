@@ -9,6 +9,9 @@ const Creatable = createClass({
 	displayName: 'CreatableSelect',
 
 	propTypes: {
+    // called after a successful create
+    onAfterCreate: PropTypes.func,
+
 		// Child function responsible for creating the inner Select component
 		// This component can be used to compose HOCs (eg Creatable and Async)
 		// (props: Object): PropTypes.element
@@ -80,7 +83,8 @@ const Creatable = createClass({
 			newOptionCreator,
 			onNewOptionClick,
 			options = [],
-			shouldKeyDownEventCreateNewOption
+			shouldKeyDownEventCreateNewOption,
+      onAfterCreate,
 		} = this.props;
 
 		if (isValidNewOption({ label: this.inputValue })) {
@@ -96,6 +100,9 @@ const Creatable = createClass({
 
 					this.select.selectValue(option);
 				}
+        if (onAfterCreate) {
+          onAfterCreate(option);
+        }
 			}
 		}
 	},
